@@ -1,0 +1,15 @@
+{
+  "name": "content-pipeline",
+  "owner": {
+    "name": "Jakub Čuřík",
+    "email": "curik@animato.cz"
+  },
+  "description": "Marketplace pro content-pipeline plugin — autonomní SEO/AEO pipeline pro Claude Code.",
+  "plugins": [
+    {
+      "name": "content-pipeline",
+      "source": ".",
+      "description": "Autonomní pipeline pro tvorbu SEO/AEO článků: research → osnova → draft → publikace. Multi-klient, CMS-agnostický audit, vlastní DataForSEO + Google (GSC/GA4) napojení."
+    }
+  ]
+}

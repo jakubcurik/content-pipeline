@@ -34,29 +34,18 @@ Bez kteréhokoli z nich pipeline jede dál v omezeném režimu (graceful degrada
 
 ## Instalace
 
+Repo je **self-contained marketplace** — stačí ho přidat a nainstalovat, žádná další infrastruktura:
+
 ```
-/plugin marketplace update animato        # po přidání záznamu (viz níže)
-/plugin install content-pipeline@animato
+/plugin marketplace add jakubcurik/content-pipeline
+/plugin install content-pipeline@content-pipeline
 /content-pipeline:setup                   # vyplň DataForSEO + Google + Gemini
 /client new muj-klient                    # nastav brand voice a web
 /blog-post "téma článku"
 ```
 
-## Napojení na animato marketplace
-
-Tento repo obsahuje **jen plugin** (hostovaný na GitHubu). Do `marketplace.json` v repu
-`gitlab.animato-lab.cz/jakub_curik/animato-marketplace` přidej do pole `plugins`:
-
-```json
-{
-  "name": "content-pipeline",
-  "source": {
-    "source": "url",
-    "url": "https://github.com/jakubcurik/content-pipeline.git"
-  },
-  "description": "Autonomní pipeline pro tvorbu SEO/AEO článků (research → osnova → draft → publikace), multi-klient."
-}
-```
+> `marketplace add` přijímá i plnou URL: `https://github.com/jakubcurik/content-pipeline.git`.
+> Po update pluginu spusť `/plugin marketplace update content-pipeline`.
 
 ## Prerekvizity (na straně uživatele)
 

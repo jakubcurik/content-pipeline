@@ -88,7 +88,7 @@ U každého klikni **Enable**.
 V terminálu (nebo nech Claude spustit přes Bash):
 ```bash
 GOOGLE_CLIENT_ID="<tvuj-client-id>" GOOGLE_CLIENT_SECRET="<tvuj-secret>" \
-  node "$(claude plugin path content-pipeline@animato)/bin/google-oauth.js"
+  node "$(claude plugin path content-pipeline@content-pipeline)/bin/google-oauth.js"
 ```
 1. Otevře se prohlížeč s Google consent screenem.
 2. Přihlas se účtem, který má přístup k Search Console i Analytics.
