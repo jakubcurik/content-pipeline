@@ -110,7 +110,7 @@ function waitForAuthCode(): Promise<AuthCodeResult> {
       res.end(
         `<!doctype html><html lang="cs"><body style="font-family:system-ui;padding:2rem;max-width:520px;margin:auto">` +
           `<h1>Hotovo!</h1>` +
-          `<p>Refresh token byl vygenerován. Vrať se do terminálu, kde poběží animato-oauth.</p>` +
+          `<p>Refresh token byl vygenerován. Vrať se do terminálu, kde běží google-oauth helper.</p>` +
           `<p>Tuto záložku můžeš zavřít.</p>` +
           `</body></html>`,
       );

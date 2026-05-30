@@ -116,7 +116,7 @@ export async function authenticatedRequest<T>(
  * remediation advice we surface on 401/403.
  */
 export interface ErrorHints {
-  /** Full message shown on 401 (e.g. "Re-run animato-oauth ..."). */
+  /** Full message shown on 401 (e.g. "Re-run the google-oauth helper ..."). */
   unauthorized?: string;
   /** Extra advice appended after the detail on 403. */
   forbidden?: string;

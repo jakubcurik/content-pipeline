@@ -21129,7 +21129,7 @@ var GoogleAuthProvider = class {
     if (!response.ok) {
       const text = await response.text();
       throw new Error(
-        `Google OAuth token refresh failed (${response.status}): ${text}. Check the client ID, client secret, and refresh token. The refresh token may be revoked \u2013 re-run animato-oauth to generate a new one.`
+        `Google OAuth token refresh failed (${response.status}): ${text}. Check the client ID, client secret, and refresh token. The refresh token may be revoked \u2013 re-run the google-oauth helper to generate a new one.`
       );
     }
     const data = await response.json();
@@ -21147,7 +21147,7 @@ var GoogleAuthProvider = class {
   }
 };
 var GOOGLE_API_HINTS = {
-  unauthorized: "Error: Authentication failed. The Google refresh token may be invalid or revoked. Re-run animato-oauth to generate a new one.",
+  unauthorized: "Error: Authentication failed. The Google refresh token may be invalid or revoked. Re-run the google-oauth helper to generate a new one.",
   forbidden: "Confirm that your Google account has access to the requested resource and that the relevant API is enabled in Google Cloud Console.",
   service: "Google API"
 };

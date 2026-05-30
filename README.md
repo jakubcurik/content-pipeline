@@ -2,9 +2,9 @@
 
 Autonomní pipeline pro tvorbu SEO/AEO článků pro **jakýkoli web a jakéhokoli klienta**, jako plugin pro Claude Code. Research → osnova → draft → publikace, se 3 human checkpointy.
 
-> Status: **Fáze 0 — kostra.** Plugin zatím není funkční, staví se po fázích (viz blueprint).
+> Status: **v0.1.0 — funkční.** Všechny příkazy, agenti i skripty jsou implementované a otestované.
 
-## Co to umí (cílový stav)
+## Co to umí
 
 - `/client new <jméno>` — založí profil klienta (brand voice, SEO pravidla, ICP, napojení na web)
 - `/blog-post "<téma>"` — kompletní pipeline tvorby článku s 3 checkpointy
@@ -64,4 +64,4 @@ npm run typecheck
 
 ## Licence
 
-UNLICENSED — interní nástroj Animato.
+[MIT](LICENSE) — volně k použití, úpravám i šíření. Stačí zachovat copyright.

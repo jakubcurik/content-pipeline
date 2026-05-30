@@ -8,7 +8,7 @@
   },
   "homepage": "https://github.com/jakubcurik/content-pipeline",
   "repository": "https://github.com/jakubcurik/content-pipeline",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "keywords": ["seo", "aeo", "geo", "content", "copywriting", "dataforseo", "gsc", "ga4", "wordpress", "animato"],
   "userConfig": {
     "dataforseo_username": {

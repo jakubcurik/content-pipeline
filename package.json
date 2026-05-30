@@ -25,5 +25,5 @@
     "typescript": "^5.7.2"
   },
   "author": "Jakub Čuřík <curik@animato.cz>",
-  "license": "UNLICENSED"
+  "license": "MIT"
 }

@@ -83,7 +83,7 @@ function waitForAuthCode() {
       res.statusCode = 200;
       res.setHeader("Content-Type", "text/html; charset=utf-8");
       res.end(
-        `<!doctype html><html lang="cs"><body style="font-family:system-ui;padding:2rem;max-width:520px;margin:auto"><h1>Hotovo!</h1><p>Refresh token byl vygenerov\xE1n. Vra\u0165 se do termin\xE1lu, kde pob\u011B\u017E\xED animato-oauth.</p><p>Tuto z\xE1lo\u017Eku m\u016F\u017Ee\u0161 zav\u0159\xEDt.</p></body></html>`
+        `<!doctype html><html lang="cs"><body style="font-family:system-ui;padding:2rem;max-width:520px;margin:auto"><h1>Hotovo!</h1><p>Refresh token byl vygenerov\xE1n. Vra\u0165 se do termin\xE1lu, kde b\u011B\u017E\xED google-oauth helper.</p><p>Tuto z\xE1lo\u017Eku m\u016F\u017Ee\u0161 zav\u0159\xEDt.</p></body></html>`
       );
       server.close();
       resolve({ code });
