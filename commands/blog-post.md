@@ -15,8 +15,15 @@ Tvoje role: orchestrátor pipeline. Postupuj přesně podle fází. **Žádnou f
 2. Nastav `{CLIENT_DIR}` = `clients/<active_client>/`. Přečti:
    - `{CLIENT_DIR}/client.config.json` (doména, jazyk, lokace, publish target, features)
    - `{CLIENT_DIR}/brand-voice.md`, `{CLIENT_DIR}/seo-rules.md`, `{CLIENT_DIR}/icp.md`
-   - `data/site-inventory.json` (pokud existuje — z `/audit-site`, pro interlinking)
-3. Předávej `{CLIENT_DIR}` všem subagentům.
+   - `{CLIENT_DIR}/data/site-inventory.json` (pokud existuje — z `/audit-site`, pro interlinking)
+3. **Všechny artefakty jsou per-klient pod `{CLIENT_DIR}`:**
+   - briefy: `{CLIENT_DIR}/articles/01-briefs/`
+   - drafty: `{CLIENT_DIR}/articles/02-drafts/`
+   - ke schválení: `{CLIENT_DIR}/articles/03-ready/`
+   - publikované: `{CLIENT_DIR}/articles/04-published/`
+   - data: `{CLIENT_DIR}/data/` (keyword-cache, serp-snapshots, db-insights, site-inventory.json)
+   Pokud některý adresář chybí, vytvoř ho (klient založený přes `/client new` už je má).
+4. Předávej `{CLIENT_DIR}` všem subagentům.
 
 Skripty pluginu spouštěj přes `uv run "${CLAUDE_PLUGIN_ROOT}/scripts/<script>.py" …` (PEP 723 si doinstaluje závislosti).
 
@@ -26,7 +33,7 @@ Skripty pluginu spouštěj přes `uv run "${CLAUDE_PLUGIN_ROOT}/scripts/<script>
 
 Deleguj `researcher` subagenta (předej téma + `{CLIENT_DIR}`). Provede keyword research, intent klasifikaci, SERP top 5 + features, content gap, vlastní pozice (pokud je GSC), případně vlastní data klienta (jen když `features.own_data_citation`).
 
-Výstup: `data/keyword-cache/{slug}-{date}.json` + `data/serp-snapshots/{slug}-{date}.json` + research report.
+Výstup: `{CLIENT_DIR}/data/keyword-cache/{slug}-{date}.json` + `{CLIENT_DIR}/data/serp-snapshots/{slug}-{date}.json` + research report.
 
 ⏸ **CHECKPOINT 1** → ukaž research report přes AskUserQuestion. Nabídni: pokračovat s navrženým target KW · vybrat jiný KW · upravit angle · zrušit.
 
@@ -36,7 +43,7 @@ Výstup: `data/keyword-cache/{slug}-{date}.json` + `data/serp-snapshots/{slug}-{
 
 Deleguj `outline-architect` subagenta (předej `{CLIENT_DIR}` + research data). Capsule-style osnova: target+supporting KW, H1+meta, H2/H3 jako otázky, angle/USP, interní odkazy (min. 5 z inventory), externí odkazy, návrhy obrázků, CTA, schema strategie.
 
-Výstup: `articles/01-briefs/{slug}.md`.
+Výstup: `{CLIENT_DIR}/articles/01-briefs/{slug}.md`.
 
 ⏸ **CHECKPOINT 2** → ukaž osnovu. Možnosti: schválit · úpravy (které sekce přidat/ubrat) · zrušit.
 
@@ -47,23 +54,23 @@ Výstup: `articles/01-briefs/{slug}.md`.
 Až po schválené osnově. Deleguj 3 subagenty (writer + image-art-director mohou běžet paralelně, fact-checker po dopsání):
 
 1. **writer** (`{CLIENT_DIR}`) — píše sekci po sekci dle brand-voice + seo-rules klienta.
-2. **image-art-director** (`{CLIENT_DIR}`) — obrázky dle `{CLIENT_DIR}/visual-style.md` (jen když `features.generate_images` a je Gemini klíč).
+2. **image-art-director** (`{CLIENT_DIR}`) — obrázky dle `{CLIENT_DIR}/visual-style.md` (jen když `features.generate_images` a je Gemini klíč). **Obrázky odevzdává jako WebP** (konverze je součást generování, ne volitelný krok před publikací).
 3. **fact-checker** — ověří tvrzení, statistiky, odkazy.
 
 Po dokončení:
-4. Vygeneruj `meta.json` (title, description, slug, target_keyword, schema JSON-LD, alt texty, category, featured_image).
+4. Vygeneruj `meta.json` (title, description, slug, target_keyword, schema strategie, alt texty, category, featured_image). Pozn.: u klientů, kde schema generuje theme (viz `seo-rules.md`), NEvkládej JSON-LD do těla — drž schema přes meta.
 5. Spusť validaci:
    ```bash
-   uv run "${CLAUDE_PLUGIN_ROOT}/scripts/checklist_validate.py" articles/02-drafts/{slug} \
+   uv run "${CLAUDE_PLUGIN_ROOT}/scripts/checklist_validate.py" {CLIENT_DIR}/articles/02-drafts/{slug} \
        --config {CLIENT_DIR}/client.config.json \
        --checklist {CLIENT_DIR}/checklist.yaml \
        --serp-avg-words <avg z researche>
    ```
    Vyžaduje `error: 0`. `review` položky posuď sám (brand voice, CTA, vlastní data) a oprav přes writer loop, pokud je třeba.
 
-Výstup: `articles/02-drafts/{slug}/article.md`, `meta.json`, `images/*`.
+Výstup: `{CLIENT_DIR}/articles/02-drafts/{slug}/article.md`, `meta.json`, `images/*` (WebP).
 
-⏸ **CHECKPOINT 3** → ukaž draft + checklist report. Možnosti: schválit → `articles/03-ready/` + publikace · revize konkrétních sekcí (loop do writer) · zrušit.
+⏸ **CHECKPOINT 3** → ukaž draft + checklist report. Možnosti: schválit → `{CLIENT_DIR}/articles/03-ready/` + publikace · revize konkrétních sekcí (loop do writer) · zrušit.
 
 ---
 
@@ -73,21 +80,21 @@ Podle `client.config.json` → `publish.target`:
 
 **`wordpress`:**
 ```bash
-uv run "${CLAUDE_PLUGIN_ROOT}/scripts/publish_wp.py" articles/03-ready/{slug} \
+uv run "${CLAUDE_PLUGIN_ROOT}/scripts/publish_wp.py" {CLIENT_DIR}/articles/03-ready/{slug} \
     --config {CLIENT_DIR}/client.config.json --dry-run    # nejdřív náhled
-uv run "${CLAUDE_PLUGIN_ROOT}/scripts/publish_wp.py" articles/03-ready/{slug} \
+uv run "${CLAUDE_PLUGIN_ROOT}/scripts/publish_wp.py" {CLIENT_DIR}/articles/03-ready/{slug} \
     --config {CLIENT_DIR}/client.config.json               # vytvoří DRAFT
 ```
 **Nikdy `--allow-publish` bez explicitního příkazu uživatele.** Default = draft, člověk klikne Publish v adminu.
 
 **`markdown`:**
 ```bash
-uv run "${CLAUDE_PLUGIN_ROOT}/scripts/publish_markdown.py" articles/03-ready/{slug} \
+uv run "${CLAUDE_PLUGIN_ROOT}/scripts/publish_markdown.py" {CLIENT_DIR}/articles/03-ready/{slug} \
     --config {CLIENT_DIR}/client.config.json
 ```
 Vyrobí přenosný `export/` (HTML + meta + schema + obrázky).
 
-Nakonec: přesun do `articles/04-published/{date}-{slug}/`, reportuj URL/cestu.
+Nakonec: přesun do `{CLIENT_DIR}/articles/04-published/{date}-{slug}/`, reportuj URL/cestu.
 
 ---
 

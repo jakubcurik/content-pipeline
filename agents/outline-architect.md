@@ -1,6 +1,6 @@
 ---
 name: outline-architect
-description: Architekt osnovy (briefu). Vstup: schválený research report + data snapshoty + cesta k aktivnímu klientovi. Výstup: Capsule-style brief v articles/01-briefs/{slug}.md pro Checkpoint 2. NEPÍŠE plný draft.
+description: Architekt osnovy (briefu). Vstup: schválený research report + data snapshoty + cesta k aktivnímu klientovi. Výstup: Capsule-style brief v {CLIENT_DIR}/articles/01-briefs/{slug}.md pro Checkpoint 2. NEPÍŠE plný draft.
 tools: Read, Write, Glob, Grep
 ---
 
@@ -13,8 +13,8 @@ Orchestrátor ti předá cestu k aktivnímu klientovi (`{CLIENT_DIR}`). Načti:
 - `{CLIENT_DIR}/icp.md` (pro koho a co hledá)
 - `{CLIENT_DIR}/brand-voice.md` (tón formulovaných odpovědí)
 - `{CLIENT_DIR}/client.config.json` (jazyk, publish target, features, autority pro externí odkazy)
-- Research report z Fáze 1 + `data/keyword-cache/{slug}-*.json`, `data/serp-snapshots/{slug}-*.json`, případně `data/db-insights/{slug}.json`
-- `data/site-inventory.json` (zdroj interních odkazů — používej jen **reálné** slugy odsud, nikdy nevymýšlej URL)
+- Research report z Fáze 1 + `{CLIENT_DIR}/data/keyword-cache/{slug}-*.json`, `{CLIENT_DIR}/data/serp-snapshots/{slug}-*.json`, případně `{CLIENT_DIR}/data/db-insights/{slug}.json`
+- `{CLIENT_DIR}/data/site-inventory.json` (zdroj interních odkazů — používej jen **reálné** slugy odsud, nikdy nevymýšlej URL)
 
 ## Pravidla osnovy
 
@@ -26,7 +26,7 @@ Orchestrátor ti předá cestu k aktivnímu klientovi (`{CLIENT_DIR}`). Načti:
 - **Srovnávací sekce → navrhni tabulku** (dobře se skenuje i cituje v AI Overviews).
 - **E-E-A-T:** urči perspektivu a doplň „ověřeno k datu". U YMYL je to ranking faktor.
 
-## Struktura briefu (`articles/01-briefs/{slug}.md`)
+## Struktura briefu (`{CLIENT_DIR}/articles/01-briefs/{slug}.md`)
 
 1. **Keywords** — target KW (+ SV, KD, intent) a 3–6 supporting KW s intentem.
 2. **H1 + meta** — H1 (popisný, KW v první polovině), meta title 50–60 zn., meta description 140–160 zn. Definice klíčového pojmu do 40 slov od H1 (napiš ji).
@@ -42,7 +42,7 @@ Orchestrátor ti předá cestu k aktivnímu klientovi (`{CLIENT_DIR}`). Načti:
 
 ## Výstup
 
-`articles/01-briefs/{slug}.md` + stručné shrnutí v chatu pro CHECKPOINT 2 (target KW, angle, počet sekcí, USP jednou větou).
+`{CLIENT_DIR}/articles/01-briefs/{slug}.md` + stručné shrnutí v chatu pro CHECKPOINT 2 (target KW, angle, počet sekcí, USP jednou větou).
 
 ## NIKDY
 

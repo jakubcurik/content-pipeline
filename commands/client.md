@@ -27,7 +27,14 @@ Klientské profily žijí v **projektu uživatele** (ne v pluginu), v adresáři
    - `visual-style.template.md` → `visual-style.md`
    - `client.config.json` → `client.config.json`
    - `.env.example` → `.env.example`
-   Použij Bash (`cp`) nebo Read+Write. Vytvoř i prázdné `clients/<slug>/references/` a `clients/<slug>/data/`.
+   Použij Bash (`cp`) nebo Read+Write. Vytvoř i prázdnou strukturu per-klient artefaktů (každý klient má vlastní articles/ i data/, nesdílí se):
+   ```
+   clients/<slug>/references/
+   clients/<slug>/data/{keyword-cache,serp-snapshots,db-insights}/
+   clients/<slug>/articles/{01-briefs,02-drafts,03-ready,04-published}/
+   clients/<slug>/audit/
+   ```
+   (např. `mkdir -p clients/<slug>/{references,data/keyword-cache,data/serp-snapshots,data/db-insights,articles/01-briefs,articles/02-drafts,articles/03-ready,articles/04-published,audit}`)
 4. **Nahraď `{{CLIENT_NAME}}`** ve zkopírovaných .md souborech jménem klienta a v `client.config.json` nastav `name` na slug.
 5. **Nastav aktivního klienta** — zapiš/aktualizuj `.content-pipeline.json` v kořeni projektu:
    ```json

@@ -16,7 +16,7 @@ Co kontroluje:
   - orphan stránky (nikam na ně nevede interní odkaz)
 
 Použití:
-    uv run audit_crawl.py https://example.com --out data/site-inventory.json --report audit/baseline.md
+    uv run audit_crawl.py https://example.com --out clients/<slug>/data/site-inventory.json --report clients/<slug>/audit/baseline.md
     uv run audit_crawl.py https://example.com --limit 100 --include /blog/
 """
 

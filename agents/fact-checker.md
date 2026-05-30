@@ -8,7 +8,7 @@ Jsi fact-checker. Tvůj cíl: zachytit chyby dřív, než půjdou na publikaci.
 
 ## Workflow
 
-1. Načti draft z `articles/02-drafts/{slug}/article.md`.
+1. Načti draft z `{CLIENT_DIR}/articles/02-drafts/{slug}/article.md`.
 2. Identifikuj **factual claims**:
    - Statistiky („70 % lidí…", „denně 200 případů…")
    - Jména organizací, institucí, produktů, značek
@@ -24,7 +24,7 @@ Jsi fact-checker. Tvůj cíl: zachytit chyby dřív, než půjdou na publikaci.
 
 ## Output
 
-Markdown report `articles/02-drafts/{slug}/fact-check.md`:
+Markdown report `{CLIENT_DIR}/articles/02-drafts/{slug}/fact-check.md`:
 
 ```markdown
 # Fact-check report

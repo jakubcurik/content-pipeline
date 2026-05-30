@@ -7,7 +7,9 @@ argument-hint: "[url] (jinak vezme web aktivního klienta)"
 
 Argument: **$ARGUMENTS**
 
-Tvoje role: provést kompletní audit webu a vyrobit `data/site-inventory.json` (vstup pro interlinking v `/blog-post`) + lidsky čitelný report. **Žádné checkpointy** — celý audit běží naráz a vrátíš finální shrnutí.
+Tvoje role: provést kompletní audit webu a vyrobit `{CLIENT_DIR}/data/site-inventory.json` (vstup pro interlinking v `/blog-post`) + lidsky čitelný report. **Žádné checkpointy** — celý audit běží naráz a vrátíš finální shrnutí.
+
+> Kam zapisovat: pro aktivního klienta vše pod `{CLIENT_DIR}` = `clients/<active_client>/`. Když běžíš na ad-hoc URL bez aktivního klienta, použij `data/` v kořeni projektu jako fallback.
 
 ## Krok 0: Zjisti cílový web
 
@@ -21,8 +23,8 @@ Skript je v pluginu (PEP 723, `uv run` si doinstaluje závislosti):
 
 ```bash
 uv run "${CLAUDE_PLUGIN_ROOT}/scripts/audit_crawl.py" <URL> \
-    --out data/site-inventory.json \
-    --report audit/{YYYY-MM-DD}-baseline.md \
+    --out {CLIENT_DIR}/data/site-inventory.json \
+    --report {CLIENT_DIR}/audit/{YYYY-MM-DD}-baseline.md \
     --limit 300
 ```
 
@@ -48,8 +50,8 @@ Pokud je DataForSEO a chceš hlubší pohled, `dataforseo_labs_google_relevant_p
 
 ## Output
 
-- `data/site-inventory.json` — machine-readable, vstup pro `/blog-post` interlinking.
-- `audit/{YYYY-MM-DD}-baseline.md` — lidský report.
+- `{CLIENT_DIR}/data/site-inventory.json` — machine-readable, vstup pro `/blog-post` interlinking.
+- `{CLIENT_DIR}/audit/{YYYY-MM-DD}-baseline.md` — lidský report.
 - Stručné shrnutí v chatu.
 
 ## Pravidla
