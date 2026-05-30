@@ -58,7 +58,26 @@ Až po schválené osnově. Deleguj 3 subagenty (writer + image-art-director moh
 3. **fact-checker** — ověří tvrzení, statistiky, odkazy.
 
 Po dokončení:
-4. Vygeneruj `meta.json` (title, description, slug, target_keyword, schema strategie, alt texty, category, featured_image). Pozn.: u klientů, kde schema generuje theme (viz `seo-rules.md`), NEvkládej JSON-LD do těla — drž schema přes meta.
+4. Vygeneruj `meta.json` **přesně podle kontraktu, který čte `publish_wp.py`** (jinak publikace selže):
+   ```jsonc
+   {
+     "slug": "…",                         // kebab-case
+     "h1": "…",                           // WP titulek (fallback: title)
+     "title": "…",                        // SEO title (50–60 zn) → meta klíč
+     "description": "…",                  // 140–160 zn → excerpt + SEO description
+     "category": "Název kategorie",       // STRING (jméno), NE objekt
+     "featured_image": "images/x.webp",   // STRING (rel. cesta), NE objekt
+     "images": [ { "path": "images/x.webp", "alt": "80–125 zn" } ],
+     "schema": { "faqpage": { "mainEntity": [
+       { "@type": "Question", "name": "…?",
+         "acceptedAnswer": { "@type": "Answer", "text": "…" } }
+     ] } }                                // FAQ MUSÍ být tady (ne jinde) — skript je odsud zapíše do meta
+   }
+   ```
+   - `featured_image` a `category` jsou **stringy**, ne objekty (častý omyl → `TypeError`).
+   - FAQ patří do `schema.faqpage.mainEntity` ve schema.org tvaru; publikační skript je vezme a zapíše do SEO meta klíče (`_ktv_faqs` apod.).
+   - Pozn.: u klientů, kde schema generuje theme (viz `seo-rules.md`), NEvkládej JSON-LD do těla — publikuj bez `--schema all`.
+   - **Inline obrázky musí být embednuté přímo v `article.md`** (`![alt](images/x.webp)`); publikační skript bere z těla jen obrázky v markdownu + `featured_image`. Featured se do těla nedává (řeší ho `featured_media`).
 5. Spusť validaci:
    ```bash
    uv run "${CLAUDE_PLUGIN_ROOT}/scripts/checklist_validate.py" {CLIENT_DIR}/articles/02-drafts/{slug} \

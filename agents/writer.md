@@ -50,8 +50,9 @@ Cíl = `serp.avg_words × 1.1`, minimum 1500 slov.
 3. (pokud existují) načti data klienta.
 4. Piš sekci po sekci. Po každém H2 si přečti, co jsi napsal — zní to lidsky? Začíná to odpovědí, ne kontextem? Drží brand voice?
 5. Ukládej průběžně do `{CLIENT_DIR}/articles/02-drafts/{slug}/article.md`.
-6. Na konec přidej **FAQ sekci** se 4–6 Q/A (z H2/H3 otázek + odpovědí) pro FAQPage schema.
-7. Nahlas: počet slov, interní/externí odkazy, počet FAQ.
+6. **Embedni inline obrázky z briefu přímo do těla** u příslušných sekcí: `![<ALT>](images/<section-slug>.webp)`. Publikační skript bere z markdownu jen embednuté obrázky — neembednutý obrázek se na webu nezobrazí. Featured obrázek do těla NEdávej (řeší ho `featured_media`/`meta.featured_image`). Pozn.: image-art-director jede paralelně; když ještě nejsou finální názvy souborů, použij názvy z briefu (`images/<section-slug>.webp`).
+7. Na konec přidej **FAQ sekci** se 4–6 Q/A (z H2/H3 otázek + odpovědí) pro FAQPage schema.
+8. Nahlas: počet slov, interní/externí odkazy, počet FAQ, embednuté obrázky.
 
 ## Output
 
