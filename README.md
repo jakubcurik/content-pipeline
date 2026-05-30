@@ -32,14 +32,45 @@ Plugin **nekopíruje cizí kód** — jen veze spouštěcí recepty. Klíče si 
 
 Bez kteréhokoli z nich pipeline jede dál v omezeném režimu (graceful degradation).
 
-## Instalace (cílově)
+## Instalace
 
 ```
-/plugin marketplace add <animato-marketplace>
+/plugin marketplace update animato        # po přidání záznamu (viz níže)
 /plugin install content-pipeline@animato
-/content-pipeline:setup          # vyplň DataForSEO + Google + Gemini
-/client new muj-klient           # nastav brand voice a web
+/content-pipeline:setup                   # vyplň DataForSEO + Google + Gemini
+/client new muj-klient                    # nastav brand voice a web
 /blog-post "téma článku"
+```
+
+## Napojení na animato marketplace
+
+Tento repo obsahuje **jen plugin**. Do `marketplace.json` v repu
+`gitlab.animato-lab.cz/jakub_curik/animato-marketplace` přidej do pole `plugins`:
+
+```json
+{
+  "name": "content-pipeline",
+  "source": {
+    "source": "url",
+    "url": "https://gitlab.animato-lab.cz/jakub_curik/content-pipeline.git"
+  },
+  "description": "Autonomní pipeline pro tvorbu SEO/AEO článků (research → osnova → draft → publikace), multi-klient."
+}
+```
+
+## Prerekvizity (na straně uživatele)
+
+- **Node.js ≥ 18** — pro DataForSEO MCP (`npx`) a vendored Google servery.
+- **uv** — pro Python skripty pipeline (PEP 723, závislosti se doinstalují samy).
+
+## Vývoj — rebuild Google MCP
+
+`dist/google-gsc.js` a `dist/google-ga4.js` jsou předkompilované (shipují se v repu, běží bez `node_modules`). Po úpravě `src/` přebuilduj:
+
+```
+npm install      # jen poprvé / po změně závislostí
+npm run build    # → dist/*.js + bin/google-oauth.js
+npm run typecheck
 ```
 
 ## Licence
