@@ -6,8 +6,8 @@
     "name": "Jakub Čuřík",
     "email": "curik@animato.cz"
   },
-  "homepage": "https://gitlab.animato-lab.cz/jakub_curik/content-pipeline",
-  "repository": "https://gitlab.animato-lab.cz/jakub_curik/content-pipeline",
+  "homepage": "https://github.com/jakubcurik/content-pipeline",
+  "repository": "https://github.com/jakubcurik/content-pipeline",
   "license": "UNLICENSED",
   "keywords": ["seo", "aeo", "geo", "content", "copywriting", "dataforseo", "gsc", "ga4", "wordpress", "animato"],
   "userConfig": {

@@ -44,15 +44,15 @@ Bez kteréhokoli z nich pipeline jede dál v omezeném režimu (graceful degrada
 
 ## Napojení na animato marketplace
 
-Tento repo obsahuje **jen plugin**. Do `marketplace.json` v repu
+Tento repo obsahuje **jen plugin** (hostovaný na GitHubu). Do `marketplace.json` v repu
 `gitlab.animato-lab.cz/jakub_curik/animato-marketplace` přidej do pole `plugins`:
 
 ```json
 {
   "name": "content-pipeline",
   "source": {
-    "source": "url",
-    "url": "https://gitlab.animato-lab.cz/jakub_curik/content-pipeline.git"
+    "source": "github",
+    "repo": "jakubcurik/content-pipeline"
   },
   "description": "Autonomní pipeline pro tvorbu SEO/AEO článků (research → osnova → draft → publikace), multi-klient."
 }

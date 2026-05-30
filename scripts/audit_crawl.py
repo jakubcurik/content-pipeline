@@ -40,7 +40,7 @@ from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 # Sitemapy jsou XML, parsujeme je stdlib html.parserem (bez lxml závislosti) — warning je neškodný.
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
-UA = "content-pipeline-audit/1.0 (+https://gitlab.animato-lab.cz/jakub_curik/content-pipeline)"
+UA = "content-pipeline-audit/1.0 (+https://github.com/jakubcurik/content-pipeline)"
 AI_BOTS = ["Googlebot", "OAI-SearchBot", "PerplexityBot", "ClaudeBot", "GPTBot", "Google-Extended"]
 THIN_WORDS = 600
 
