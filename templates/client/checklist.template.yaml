@@ -1,0 +1,152 @@
+# Validační checklist pro draft článku — {{CLIENT_NAME}}
+# Spouští `checklist_validate.py <draft>` před checkpointem 3.
+# severity: error blokuje publikaci, warn jen flagne.
+# Většina pravidel je univerzální — uprav hlavně no_banned_phrases (dle jazyka)
+# a zvaž zapnutí db_citation (jen pro klienty s vlastními daty).
+
+rules:
+  # --- Technical SEO ---
+  - id: title_length
+    severity: error
+    description: "Title 50–60 znaků"
+    check: { type: range, field: meta.title_chars, min: 50, max: 60 }
+
+  - id: meta_desc_length
+    severity: error
+    description: "Meta description 140–160 znaků"
+    check: { type: range, field: meta.description_chars, min: 140, max: 160 }
+
+  - id: slug_format
+    severity: error
+    description: "Slug = kebab-case, ASCII, ≤ 60 znaků"
+    check: { type: regex, field: meta.slug, pattern: "^[a-z0-9]+(-[a-z0-9]+){1,15}$" }
+
+  # --- Capsule method (AI SEO) ---
+  - id: h2_question_ratio
+    severity: error
+    description: "≥ 80 % H2 končí otazníkem"
+    check: { type: ratio, field: structure.h2_question_ratio, min: 0.8 }
+
+  - id: first_sentence_answers
+    severity: warn
+    description: "1. věta každého H2 odstavce přímo odpovídá na otázku"
+    check: { type: ai_judge, prompt: "first_sentence_answers_h2" }
+
+  - id: definition_present
+    severity: error
+    description: "Definice klíčového pojmu do 40 slov od H1"
+    check: { type: word_window, field: content, target: "definition", max_words: 40 }
+
+  # --- Length & depth ---
+  - id: min_length
+    severity: error
+    description: "≥ 1500 slov nebo ≥ avg(top-5 SERP) × 1.1"
+    check: { type: dynamic_threshold, source: serp.avg_words, multiplier: 1.1, absolute_min: 1500 }
+
+  # --- Interlinking ---
+  - id: internal_links_min
+    severity: error
+    description: "≥ 5 interních odkazů"
+    check: { type: range, field: links.internal_count, min: 5 }
+
+  - id: no_orphan_h2
+    severity: warn
+    description: "Každý H2 obsahuje min. 1 odkaz"
+    check: { type: structural, rule: "no_orphan_h2" }
+
+  # --- Schema.org ---
+  - id: schema_article
+    severity: error
+    description: "Article schema vygenerováno"
+    check: { type: schema_present, type_name: "Article" }
+
+  - id: schema_faq
+    severity: warn
+    description: "FAQPage schema (min. 3 Q/A) — rich result deprecován, jen jako struktura"
+    check: { type: schema_present, type_name: "FAQPage", min_items: 3 }
+
+  - id: schema_breadcrumb
+    severity: warn
+    description: "BreadcrumbList schema"
+    check: { type: schema_present, type_name: "BreadcrumbList" }
+
+  # --- AI search 2026 ---
+  - id: freshness_date
+    severity: warn
+    description: "Viditelné datum publikace/aktualizace + dateModified ve schema"
+    check: { type: ai_judge, prompt: "freshness_date_visible" }
+
+  - id: no_keyword_stuffing
+    severity: warn
+    description: "Hustota target keywordu pod prahem (anti-stuffing)"
+    check: { type: keyword_density, field: meta.target_keyword, max_ratio: 0.025 }
+
+  - id: comparison_table
+    severity: warn
+    description: "Srovnání je v HTML tabulce (pokud článek něco srovnává)"
+    check: { type: ai_judge, prompt: "comparison_table_when_relevant" }
+
+  # --- Brand voice ---
+  # DŮLEŽITÉ: doplň/uprav podle jazyka a oboru klienta. Drž v synchronu s brand-voice.md.
+  - id: no_banned_phrases
+    severity: error
+    description: "Žádná zakázaná klišé (viz brand-voice.md)"
+    check:
+      type: regex_absent
+      patterns:
+        - "v dnešní (dynamické|digitální|moderní) době"
+        - "v dnešní době"
+        - "není žádným tajemstvím"
+        - "stále více lidí"
+        - "v neposlední řadě"
+        - "závěrem je třeba zdůraznit"
+        - "z výše uvedeného vyplývá"
+        - "klíčem k úspěchu"
+        - "pevně věříme"
+        - "naprostá většina"
+
+  - id: no_ai_tells
+    severity: warn
+    description: "AI-tells: symetrické konstrukce, vatové fráze"
+    check:
+      type: regex_absent
+      patterns:
+        - "nejen.{0,40}ale i"
+        - "je důležité (poznamenat|zmínit|si uvědomit|mít na paměti)"
+        - "stojí za zmínku"
+
+  - id: em_dash_density
+    severity: warn
+    description: "Nadužívání pomlčky (em/en dash) jako AI-tell, max 1 na 400 slov"
+    check: { type: density, pattern: "[—–]", max_per_words: 400 }
+
+  - id: voice_check
+    severity: warn
+    description: "AI judge: brand voice consistency"
+    check: { type: ai_judge, prompt: "brand_voice_alignment" }
+
+  # --- Vlastní data (OPT-IN) ---
+  # Aktivní jen když features.own_data_citation = true v client.config.json.
+  # Pro klienty bez unikátních dat nech vypnuté (validator pravidlo přeskočí).
+  - id: db_citation
+    severity: error
+    requires_feature: own_data_citation
+    description: "≥ 1 citace vlastních dat klienta (statistika, unikátní zdroj)"
+    check: { type: ai_judge, prompt: "own_data_citation_present" }
+
+  # --- Obrázky ---
+  - id: image_count
+    severity: error
+    description: "≥ 3 unikátní obrázky"
+    check: { type: range, field: media.image_count, min: 3 }
+
+  - id: alt_text_length
+    severity: error
+    description: "Každý obrázek má ALT 80–125 znaků"
+    check: { type: foreach_range, field: media.alts, min: 80, max: 125 }
+
+  # --- CTA ---
+  - id: cta_present
+    severity: error
+    description: "≥ 1 CTA na klíčovou akci/stránku klienta nebo související obsah"
+    check: { type: ai_judge, prompt: "cta_present" }

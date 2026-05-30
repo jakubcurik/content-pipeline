@@ -1,0 +1,35 @@
+{
+  "name": "REPLACE-WITH-CLIENT-SLUG",
+  "site": {
+    "domains": ["example.com"],
+    "primary_url": "https://example.com",
+    "sitemap_url": "https://example.com/sitemap.xml"
+  },
+  "locale": {
+    "language_code": "cs",
+    "language_name": "Czech",
+    "location_name": "Czechia"
+  },
+  "publish": {
+    "target": "markdown",
+    "_target_options": "wordpress | markdown",
+    "seo_meta_preset": "none",
+    "_seo_meta_preset_options": "rankmath | yoast | custom | none",
+    "custom_meta_keys": {
+      "title": "",
+      "description": "",
+      "faqs": ""
+    },
+    "summary_box_class": "",
+    "default_status": "draft",
+    "default_category": ""
+  },
+  "features": {
+    "own_data_citation": false,
+    "_own_data_citation_help": "true jen když má klient vlastní data v data/insights.json; zapne db_citation pravidlo v checklistu",
+    "generate_images": true
+  },
+  "external_links_authorities": [
+    "Příklad: oficiální regulátor, ministerstvo, oborová autorita relevantní pro téma klienta"
+  ]
+}

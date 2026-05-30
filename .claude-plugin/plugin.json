@@ -1,0 +1,57 @@
+{
+  "name": "content-pipeline",
+  "version": "0.1.0",
+  "description": "Autonomní pipeline pro tvorbu SEO/AEO článků: research → osnova → draft → publikace. Multi-klient, CMS-agnostický audit, vlastní DataForSEO + Google (GSC/GA4) napojení.",
+  "author": {
+    "name": "Jakub Čuřík",
+    "email": "curik@animato.cz"
+  },
+  "homepage": "https://gitlab.animato-lab.cz/jakub_curik/content-pipeline",
+  "repository": "https://gitlab.animato-lab.cz/jakub_curik/content-pipeline",
+  "license": "UNLICENSED",
+  "keywords": ["seo", "aeo", "geo", "content", "copywriting", "dataforseo", "gsc", "ga4", "wordpress", "animato"],
+  "userConfig": {
+    "dataforseo_username": {
+      "type": "string",
+      "title": "DataForSEO Login",
+      "description": "Login k DataForSEO účtu (https://app.dataforseo.com). Bez něj research jede v omezeném režimu (keywords zadáš ručně). Spusť /content-pipeline:setup pro návod.",
+      "sensitive": false,
+      "required": false
+    },
+    "dataforseo_password": {
+      "type": "string",
+      "title": "DataForSEO Password",
+      "description": "API heslo k DataForSEO účtu (NE heslo do webu — API password z nastavení účtu).",
+      "sensitive": true,
+      "required": false
+    },
+    "google_client_id": {
+      "type": "string",
+      "title": "Google OAuth Client ID",
+      "description": "Client ID Desktop OAuth klienta z Google Cloud Console. Jeden credential pokrývá GSC i GA4. Spusť /content-pipeline:setup pro krok-za-krokem.",
+      "sensitive": false,
+      "required": false
+    },
+    "google_client_secret": {
+      "type": "string",
+      "title": "Google OAuth Client Secret",
+      "description": "Client Secret odpovídající Client ID výše.",
+      "sensitive": true,
+      "required": false
+    },
+    "google_refresh_token": {
+      "type": "string",
+      "title": "Google OAuth Refresh Token",
+      "description": "Vygeneruješ 1× helperem `node bin/google-oauth.js` (jeden browser consent). Pokryje Search Console i Analytics zároveň.",
+      "sensitive": true,
+      "required": false
+    },
+    "gemini_api_key": {
+      "type": "string",
+      "title": "Google Gemini API Key",
+      "description": "Klíč pro generování obrázků (Nano Banana Pro, https://ai.google.dev). Bez něj se krok s obrázky přeskočí. Jeden klíč pro všechny klienty.",
+      "sensitive": true,
+      "required": false
+    }
+  }
+}

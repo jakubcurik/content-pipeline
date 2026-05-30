@@ -1,0 +1,29 @@
+{
+  "name": "content-pipeline-mcp",
+  "version": "0.1.0",
+  "description": "Bundled MCP servers for the content-pipeline Claude Code plugin: Google Search Console + Analytics 4 under a single Google OAuth.",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "content-pipeline-google-oauth": "./bin/google-oauth.js"
+  },
+  "scripts": {
+    "build": "node esbuild.config.mjs",
+    "typecheck": "tsc --noEmit",
+    "oauth": "node bin/google-oauth.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.2"
+  },
+  "author": "Jakub Čuřík <curik@animato.cz>",
+  "license": "UNLICENSED"
+}

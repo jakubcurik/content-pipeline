@@ -1,0 +1,18 @@
+# Závislosti
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# Credentials — NIKDY necommitovat
+.env
+.credentials/
+*refresh_token*
+*client_secret*
+
+# Build artefakty (dist/ se commituje — je to shipped plugin)
+*.tsbuildinfo
+
+# Klientská data nepatří do pluginu (žijí v projektu uživatele)
+clients/
+.content-pipeline.json
