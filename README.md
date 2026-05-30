@@ -51,8 +51,8 @@ Tento repo obsahuje **jen plugin** (hostovaný na GitHubu). Do `marketplace.json
 {
   "name": "content-pipeline",
   "source": {
-    "source": "github",
-    "repo": "jakubcurik/content-pipeline"
+    "source": "url",
+    "url": "https://github.com/jakubcurik/content-pipeline.git"
   },
   "description": "Autonomní pipeline pro tvorbu SEO/AEO článků (research → osnova → draft → publikace), multi-klient."
 }
